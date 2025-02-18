@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
 
 export default function Students() {
+  // Mình sẽ xài axios và lấy dữ liệu xuống
+  //lấy dữ liệu bằng useEffect
+
   return (
     <div>
       <h1 className='text-lg'>Students</h1>
