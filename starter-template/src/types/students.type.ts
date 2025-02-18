@@ -10,3 +10,7 @@ export interface Student {
   avatar: string
   btc_address: string
 }
+
+// Đối với StudentList thì các key của mỗi item lại khác nên cần fix lại
+//Pick của ts giữ lại các key cần thiết của interface
+export type Students = Pick<Student, 'id' | 'email' | 'avatar' | 'last_name'>[]
