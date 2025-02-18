@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { getStudents } from 'apis/students.api'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Students as StudentsType } from 'types/students.type'
 
@@ -11,26 +12,39 @@ export default function Students() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   // useEffect chạy một lần để set dữ liệu vào state
+  useEffect(() => {
+    getStudents(1, 10)
+      .then((res) => {
+        setStudents(res.data)
+      })
+      // Sau khi có dữ liệu rồi thì tắt loading
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }, [])
 
   return (
     <div>
       <h1 className='text-lg'>Students</h1>
-      {/* <div role='status' className='mt-6 animate-pulse'>
-        <div className='mb-4 h-4  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10 rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <div className='h-10  rounded bg-gray-200 dark:bg-gray-700' />
-        <span className='sr-only'>Loading...</span>
-      </div> */}
+      {isLoading && (
+        <div role='status' className='mt-6 animate-pulse'>
+          <div className='mb-4 h-4  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10 rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <div className='h-10  rounded bg-gray-200 dark:bg-gray-700' />
+          <span className='sr-only'>Loading...</span>
+        </div>
+      )}
+
       <div className='relative mt-6 overflow-x-auto shadow-md sm:rounded-lg'>
         <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
           <thead className='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
