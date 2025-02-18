@@ -1,8 +1,16 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Students as StudentsType } from 'types/students.type'
 
 export default function Students() {
   // Mình sẽ xài axios và lấy dữ liệu xuống
-  //lấy dữ liệu bằng useEffect
+  //lấy dữ liệu bằng useEffect call lần đầu
+  // state dùng để lưu dữ liệu
+  const [students, setStudents] = useState<StudentsType>([])
+  // state dùng để hiện trang thái loading
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  // useEffect chạy một lần để set dữ liệu vào state
 
   return (
     <div>
