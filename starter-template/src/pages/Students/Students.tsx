@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getStudents } from 'apis/students.api'
+import classNames from 'classnames'
 import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Students as StudentsType } from 'types/students.type'
@@ -145,10 +146,18 @@ export default function Students() {
                   .map((_, index) => {
                     // Lấy index cộng thêm nữa mới ra số page chính xác
                     const pageNumber = index + 1
+                    // Dựa vào page của url và pageNumber hiện tại để hiện actived
+                    const isActive = page === pageNumber
                     return (
                       <li key={pageNumber}>
                         <Link
-                          className='border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                          className={classNames(
+                            'border border-gray-300 py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700',
+                            {
+                              'bg-gray-100 text-gray-700': isActive,
+                              'bg-white': !isActive
+                            }
+                          )}
                           to={`/students?page=${pageNumber}`}
                         >
                           {pageNumber}
