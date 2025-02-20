@@ -175,12 +175,19 @@ export default function Students() {
                     )
                   })}
                 <li>
-                  <a
-                    className='rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-                    href='/students?page=1'
-                  >
-                    Next
-                  </a>
+                  {/* check xem đường link có page là cuối cùng hay chưa */}
+                  {page === totalPage ? (
+                    <span className='cursor-not-allowed rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
+                      Next
+                    </span>
+                  ) : (
+                    <Link
+                      to={`/students?page=${page + 1}`}
+                      className='rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+                    >
+                      Next
+                    </Link>
+                  )}
                 </li>
               </ul>
             </nav>
