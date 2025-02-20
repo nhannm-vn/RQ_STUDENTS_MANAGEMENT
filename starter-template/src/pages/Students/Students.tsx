@@ -35,15 +35,13 @@ export default function Students() {
 
   // Cách call api bằng useQuery kết hợp cùng với axios
   //react-query sẽ giúp mình quản lí các state lưu trữ tốt hơn
-  const result = useQuery({
+  const { data, isLoading } = useQuery({
     // Các key 'students' sẽ giúp mình sau này có thể refetch hoặc nhận biết thằng nào đang chạy
     // Còn page thì sẽ giúp mình phân trang và truyền như vậy nó sẽ giúp nhận biết khi nào page thay đổi
     //thì nó sẽ chạy lại queryFunc
     queryKey: ['students', page],
     queryFn: () => getStudents(page, 10)
   })
-
-  return null
 
   return (
     <div>
@@ -91,7 +89,7 @@ export default function Students() {
               </thead>
               <tbody>
                 {/* render ra dữ liệu */}
-                {students.map((student) => (
+                {data?.data.map((student) => (
                   <tr
                     key={student.id}
                     className='border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
