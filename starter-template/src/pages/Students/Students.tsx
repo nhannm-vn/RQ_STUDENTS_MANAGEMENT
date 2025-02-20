@@ -2,26 +2,37 @@ import { getStudents } from 'apis/students.api'
 import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Students as StudentsType } from 'types/students.type'
+import { useQueryString } from 'utils/utils'
 
 export default function Students() {
-  // Mình sẽ xài axios và lấy dữ liệu xuống
-  //lấy dữ liệu bằng useEffect call lần đầu
-  // state dùng để lưu dữ liệu
-  const [students, setStudents] = useState<StudentsType>([])
-  // state dùng để hiện trang thái loading
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  // // Mình sẽ xài axios và lấy dữ liệu xuống
+  // //lấy dữ liệu bằng useEffect call lần đầu
+  // // state dùng để lưu dữ liệu
+  // const [students, setStudents] = useState<StudentsType>([])
+  // // state dùng để hiện trang thái loading
+  // const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  // useEffect chạy một lần để set dữ liệu vào state
-  useEffect(() => {
-    getStudents(1, 10)
-      .then((res) => {
-        setStudents(res.data)
-      })
-      // Sau khi có dữ liệu rồi thì tắt loading
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }, [])
+  // // useEffect chạy một lần để set dữ liệu vào state
+  // useEffect(() => {
+  //   getStudents(1, 10)
+  //     .then((res) => {
+  //       setStudents(res.data)
+  //     })
+  //     // Sau khi có dữ liệu rồi thì tắt loading
+  //     .finally(() => {
+  //       setIsLoading(false)
+  //     })
+  // }, [])
+
+  // Nếu không dùng cách useEffect để lấy dữ liệu thì mình sẽ thông qua react-query
+
+  // Đầu tiên thông qua useSearchParams để lấy thông tin trên đường dẫn
+  const queryString: { page?: string } = useQueryString()
+  // Nếu trường hợp chưa có trang nào hoặc chưa có gì thì Number(underfined) = NaN
+  //lúc này mình sẽ cho mặc định là trang 1 luôn
+  const page = Number(queryString.page) || 1
+
+  return null
 
   return (
     <div>
