@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import { getStudents } from 'apis/students.api'
 import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -31,6 +32,16 @@ export default function Students() {
   // Nếu trường hợp chưa có trang nào hoặc chưa có gì thì Number(underfined) = NaN
   //lúc này mình sẽ cho mặc định là trang 1 luôn
   const page = Number(queryString.page) || 1
+
+  // Cách call api bằng useQuery kết hợp cùng với axios
+  //react-query sẽ giúp mình quản lí các state lưu trữ tốt hơn
+  const result = useQuery({
+    // Các key 'students' sẽ giúp mình sau này có thể refetch hoặc nhận biết thằng nào đang chạy
+    // Còn page thì sẽ giúp mình phân trang và truyền như vậy nó sẽ giúp nhận biết khi nào page thay đổi
+    //thì nó sẽ chạy lại queryFunc
+    queryKey: ['students', page],
+    queryFn: () => getStudents(page, 10)
+  })
 
   return null
 
