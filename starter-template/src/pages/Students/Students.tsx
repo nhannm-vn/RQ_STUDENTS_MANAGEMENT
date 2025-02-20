@@ -147,12 +147,12 @@ export default function Students() {
                     const pageNumber = index + 1
                     return (
                       <li key={pageNumber}>
-                        <a
-                          className='border border-gray-300 bg-white bg-white py-2 px-3 leading-tight text-gray-500 text-gray-500  hover:bg-gray-100 hover:bg-gray-100 hover:text-gray-700 hover:text-gray-700'
-                          href='/students?page=8'
+                        <Link
+                          className='border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                          to={`/students?page=${pageNumber}`}
                         >
-                          1
-                        </a>
+                          {pageNumber}
+                        </Link>
                       </li>
                     )
                   })}
@@ -172,3 +172,9 @@ export default function Students() {
     </div>
   )
 }
+
+/**
+ * Khi đường link thay đổi thì nó sẽ lấy số liệu trên đường link để chạy getStudents
+ * nó sẽ tự phát hiện sự thay đổi của đường link từ đó dẫn tới sự thay đổi của biến page
+ * mà biến page được đặt trong mảng queryKey nên nó sẽ nhận biết sự thay đổi mà gọi lấy dữ liệu
+ */
