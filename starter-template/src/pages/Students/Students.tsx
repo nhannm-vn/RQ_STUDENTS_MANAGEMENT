@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import { Students as StudentsType } from 'types/students.type'
 import { useQueryString } from 'utils/utils'
 
+const LIMIT = 10
+
 export default function Students() {
   // // Mình sẽ xài axios và lấy dữ liệu xuống
   // //lấy dữ liệu bằng useEffect call lần đầu
@@ -42,6 +44,11 @@ export default function Students() {
     queryKey: ['students', page],
     queryFn: () => getStudents(page, 10)
   })
+
+  // Cách lấy số lượng student và từ đó biết được có bao nhiêu trang
+  //mình sẽ lấy tròn lên chứ nếu tròn xuống sẽ không đủ trang để hiển thị số lượng sinh viên
+
+  const totalStudentsCount = Number(data?.headers['x-total-count']) || 0
 
   return (
     <div>
