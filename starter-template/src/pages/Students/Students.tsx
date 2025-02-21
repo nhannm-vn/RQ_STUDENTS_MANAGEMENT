@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { getStudents } from 'apis/students.api'
 import classNames from 'classnames'
 import { Fragment, useEffect, useState } from 'react'
@@ -43,7 +43,9 @@ export default function Students() {
     // Còn page thì sẽ giúp mình phân trang và truyền như vậy nó sẽ giúp nhận biết khi nào page thay đổi
     //thì nó sẽ chạy lại queryFunc
     queryKey: ['students', page],
-    queryFn: () => getStudents(page, 10)
+    queryFn: () => getStudents(page, 10),
+    //
+    placeholderData: keepPreviousData
   })
 
   // Cách lấy số lượng student và từ đó biết được có bao nhiêu trang
