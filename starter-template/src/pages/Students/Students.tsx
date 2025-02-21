@@ -44,8 +44,13 @@ export default function Students() {
     //thì nó sẽ chạy lại queryFunc
     queryKey: ['students', page],
     queryFn: () => getStudents(page, 10),
-    //
-    placeholderData: keepPreviousData
+    // Note:
+    // Mặc định staleTime sẽ là 0 và sẽ gọi api mỗi khi bấm vào
+    //khi ta set thơi gian cho nó thì nó sẽ thay đổi và sẽ không fetch lại nữa. Nó gọi nhưng dữ liệu lưu trên cache chưa bị xóa do chưa hết thời gian
+    //nghĩa là nếu mà set staleTime thì nó sẽ không fetch lại api
+    // muốn nó xóa và lưu dữ liệu mới thì phải set thời gian xóa cache cụ thể là set gcTime(nghĩa là xóa dữ liệu cache)
+    staleTime: 60 * 1000
+    // placeholderData: keepPreviousData
   })
 
   // Cách lấy số lượng student và từ đó biết được có bao nhiêu trang
