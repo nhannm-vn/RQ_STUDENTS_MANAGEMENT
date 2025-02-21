@@ -66,6 +66,12 @@ export default function Students() {
 
     // Điều này là tối ưu UX trải nghiệm người dùng
     // nó sẽ giúp cho nó không hiện skeleton lên khi chuyển trang(nghĩa là không giật)
+    // Giải thích:
+    //****Từ trang 1 chuyển sang trang hai thì data sẽ chưa có nghĩa là undefined
+    //thì khi đó sẽ là isLoading(dành cho data) mà vì có nó nên skeleton sẽ giật vì data undefined`
+    // keepPreviousData nó sẽ giúp cho isLoading vẫn là false và giữ data trước đó
+    //khi nó fetch thành công data số 2 thì nó mới cập nhật ra cho chúng ta
+
     placeholderData: keepPreviousData
   })
 
