@@ -46,9 +46,10 @@ export default function Students() {
     queryFn: () => getStudents(page, 10),
     // Note:
     // Mặc định staleTime sẽ là 0 và sẽ gọi api mỗi khi bấm vào
+    //nghĩa là mới bấm vào thì nó sẽ hết hạn luôn
     //khi ta set thơi gian cho nó thì nó sẽ thay đổi và sẽ không fetch lại nữa. Nó gọi nhưng dữ liệu lưu trên cache chưa bị xóa do chưa hết thời gian
-    //nghĩa là nếu mà set staleTime thì nó sẽ không fetch lại api
-    //
+    //nghĩa là nếu mà set staleTime thì nó sẽ không fetch lại api(vì nó chưa hết hạn)
+
     //Nghĩa là khi bấm qua trang khác và bấm lại thì nó chưa hết thời gian liền mà sẽ còn thời gian
     //vì vậy là stale sẽ khác 0 và sẽ chưa bị fetch api lại
     // muốn nó xóa và lưu dữ liệu mới thì phải set thời gian xóa cache cụ thể là set gcTime(nghĩa là xóa dữ liệu cache)
