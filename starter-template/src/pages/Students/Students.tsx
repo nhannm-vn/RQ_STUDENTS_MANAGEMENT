@@ -48,9 +48,25 @@ export default function Students() {
     // Mặc định staleTime sẽ là 0 và sẽ gọi api mỗi khi bấm vào
     //khi ta set thơi gian cho nó thì nó sẽ thay đổi và sẽ không fetch lại nữa. Nó gọi nhưng dữ liệu lưu trên cache chưa bị xóa do chưa hết thời gian
     //nghĩa là nếu mà set staleTime thì nó sẽ không fetch lại api
+    //
+    //Nghĩa là khi bấm qua trang khác và bấm lại thì nó chưa hết thời gian liền mà sẽ còn thời gian
+    //vì vậy là stale sẽ khác 0 và sẽ chưa bị fetch api lại
     // muốn nó xóa và lưu dữ liệu mới thì phải set thời gian xóa cache cụ thể là set gcTime(nghĩa là xóa dữ liệu cache)
-    staleTime: 60 * 1000
-    // placeholderData: keepPreviousData
+    // staleTime: 60 * 1000,
+
+    // Như mình biết khi nó chưa cũ nghĩa là còn staleTime khác 0 thì nó sẽ không gọi api
+    // tuy nhiên do mình set thời gian xóa cache nhanh nên dẫn đến không còn bộ nhớ tạm
+    // thì lúc này kiểu gì nó cũng phải fetch api lại
+
+    // Nghĩa là dù staleTime vẫn còn thời gian nên chưa fetch lại tuy nhiên gcTime hay cacheTime hết nên sẽ xóa dữ liệu cache
+    // và từ đó dẫn đến luôn luôn fetch api lại
+    // gcTime: 5 * 1000
+
+    // ***Thướng thì ngta sẽ set gcTime > staleTime
+
+    // Điều này là tối ưu UX trải nghiệm người dùng
+    // nó sẽ giúp cho nó không hiện skeleton lên khi chuyển trang(nghĩa là không giật)
+    placeholderData: keepPreviousData
   })
 
   // Cách lấy số lượng student và từ đó biết được có bao nhiêu trang
