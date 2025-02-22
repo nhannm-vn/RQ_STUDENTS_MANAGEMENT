@@ -1,4 +1,15 @@
+import { useMatch } from 'react-router-dom'
+
 export default function AddStudent() {
+  // Đây là một hook của react-router giúp mình biết được url matches với param nào trên đường dẫn
+  const addMatch = useMatch('/students/add')
+  // Mình sẽ sử dụng /add thay vì /:id vì nó sẽ handle tốt hơn
+  //nếu sử dụng /:id thì nó bao luôn /add. Còn nếu ngược lại thì tốt hơn
+
+  // Biến check xem đang ở mode nào
+  //nếu ở mode add thì sẽ có data còn nếu ở mode edit thì không có data
+  const isAddMode = Boolean(addMatch)
+
   return (
     <div>
       <h1 className='text-lg'>Add/Edit Student</h1>
