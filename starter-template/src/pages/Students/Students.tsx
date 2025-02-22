@@ -89,14 +89,17 @@ export default function Students() {
     <div>
       <h1 className='text-lg'>Students</h1>
       {/* Chuẩn bị button để add student */}
-      <button
-        type='button'
-        className='me-2 mb-2 rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-2.5 text-center text-sm font-medium
+      <div className='mt-5'>
+        <Link
+          to={'/students/add'}
+          type='button'
+          className='me-2 mb-2 rounded-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-5 py-2.5 text-center text-sm font-medium
          text-white shadow-lg shadow-purple-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-purple-300 dark:shadow-lg
          dark:shadow-purple-800/80 dark:focus:ring-purple-800'
-      >
-        Add Student
-      </button>
+        >
+          Add Student
+        </Link>
+      </div>
 
       {isLoading && (
         <div role='status' className='mt-6 animate-pulse'>
