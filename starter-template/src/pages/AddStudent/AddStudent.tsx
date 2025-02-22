@@ -1,5 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
+import { addStudent } from 'apis/students.api'
 import { useMatch } from 'react-router-dom'
+import { Student } from 'types/students.type'
+
+// Tạo type riêng cho form
+type FormStateType = Omit<Student, 'id'>
 
 export default function AddStudent() {
   // Đây là một hook của react-router giúp mình biết được url matches với param nào trên đường dẫn
@@ -12,9 +17,11 @@ export default function AddStudent() {
   const isAddMode = Boolean(addMatch)
 
   // Dùng useMutation để add dữ liệu lên
-  // const mutation = useMutation({
-  //   mutationFn: () =>
-  // })
+  const mutation = useMutation({
+    mutationFn: (body) => {
+      return addStudent(body)
+    }
+  })
 
   return (
     <div>
