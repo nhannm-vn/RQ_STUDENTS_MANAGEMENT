@@ -14,7 +14,7 @@ const initialFormState: FormStateType = {
   btc_address: '',
   country: '',
   first_name: '',
-  gender: '',
+  gender: 'other',
   last_name: ''
 }
 
@@ -38,6 +38,16 @@ export default function AddStudent() {
     }
   })
 
+  //currying
+  // Mình không sợ nó chạy liền vì nó gọi một hàm khác bên trong
+  const handleChange = (name: keyof FormStateType) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      // Viết như này nó mới hiểu là một trong các key của mảng keyof FormStateType
+      [name]: event.target.value
+    }))
+  }
+
   return (
     <div>
       <h1 className='text-lg'>{isAddMode ? 'Add' : 'Edit'} Student</h1>
@@ -51,12 +61,8 @@ export default function AddStudent() {
             placeholder=' '
             required
             value={formState.email}
-            onChange={(event) => {
-              setFormState((prevState) => ({
-                ...prevState,
-                email: event.target.value
-              }))
-            }}
+            // Nó chạy hàm khác bên trong nên không sợ hàm mình gọi bị chạy liền
+            onChange={handleChange('email')}
           />
           <label
             htmlFor='floating_email'
