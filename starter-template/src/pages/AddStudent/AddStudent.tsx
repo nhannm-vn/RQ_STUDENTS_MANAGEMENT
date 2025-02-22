@@ -1,12 +1,27 @@
 import { useMutation } from '@tanstack/react-query'
 import { addStudent } from 'apis/students.api'
+import { useState } from 'react'
 import { useMatch } from 'react-router-dom'
 import { Student } from 'types/students.type'
 
 // Tạo type riêng cho form
 type FormStateType = Omit<Student, 'id'>
 
+// Tạo initialState
+const initialFormState: FormStateType = {
+  avatar: '',
+  email: '',
+  btc_address: '',
+  country: '',
+  first_name: '',
+  gender: '',
+  last_name: ''
+}
+
 export default function AddStudent() {
+  // Tạo state để lưu dữ liệu khi submit form
+  const [formState, setFormState] = useState<FormStateType>(initialFormState)
+
   // Đây là một hook của react-router giúp mình biết được url matches với param nào trên đường dẫn
   const addMatch = useMatch('/students/add')
   // Mình sẽ sử dụng /add thay vì /:id vì nó sẽ handle tốt hơn
@@ -18,7 +33,7 @@ export default function AddStudent() {
 
   // Dùng useMutation để add dữ liệu lên
   const mutation = useMutation({
-    mutationFn: (body) => {
+    mutationFn: (body: FormStateType) => {
       return addStudent(body)
     }
   })
