@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import { useMatch } from 'react-router-dom'
 
 export default function AddStudent() {
@@ -10,9 +11,14 @@ export default function AddStudent() {
   //nếu ở mode add thì sẽ có data còn nếu ở mode edit thì không có data
   const isAddMode = Boolean(addMatch)
 
+  // Dùng useMutation để add dữ liệu lên
+  // const mutation = useMutation({
+  //   mutationFn: () =>
+  // })
+
   return (
     <div>
-      <h1 className='text-lg'>Add/Edit Student</h1>
+      <h1 className='text-lg'>{isAddMode ? 'Add' : 'Edit'} Student</h1>
       <form className='mt-6'>
         <div className='group relative z-0 mb-6 w-full'>
           <input
