@@ -48,10 +48,16 @@ export default function AddStudent() {
     }))
   }
 
+  // Với btn có kiểu submit thì ta sẽ khai báo cho nó một func có chức năng lấy hết các thông tin từ các ô và bấm nút submit
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    mutation.mutate(formState)
+  }
+
   return (
     <div>
       <h1 className='text-lg'>{isAddMode ? 'Add' : 'Edit'} Student</h1>
-      <form className='mt-6'>
+      <form className='mt-6' onSubmit={handleSubmit}>
         <div className='group relative z-0 mb-6 w-full'>
           <input
             type='email'
@@ -144,7 +150,7 @@ export default function AddStudent() {
           <div className='group relative z-0 mb-6 w-full'>
             <input
               type='tel'
-              pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
+              // pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
               name='first_name'
               id='first_name'
               value={formState.first_name}
