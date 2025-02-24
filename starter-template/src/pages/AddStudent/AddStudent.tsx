@@ -40,7 +40,7 @@ export default function AddStudent() {
   const isAddMode = Boolean(addMatch)
 
   // Dùng useMutation để add dữ liệu lên
-  const { mutate, data, error, reset } = useMutation({
+  const { mutate, data, error, reset, mutateAsync } = useMutation({
     mutationFn: (body: FormStateType) => {
       return addStudent(body)
     }
@@ -63,13 +63,21 @@ export default function AddStudent() {
       [name]: event.target.value
     }))
     // Khi thay đổi thì sẽ reset data và error bằng method reset lấy từ useMutation
+    //điều này sẽ giúp cho dòng báo lỗi bị mất sau khi hiển thị lỗi
     if (data || error) reset()
   }
 
   // Với btn có kiểu submit thì ta sẽ khai báo cho nó một func có chức năng lấy hết các thông tin từ các ô và bấm nút submit
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    mutate(formState)
+    // Sau submit thành công thì clear cái form
+    //tuy nhiên cẩn thận nó bất đồng bộ
+    //**C2 là sử dụng mutateAsync
+    mutate(formState, {
+      onSuccess: () => {
+        setFormState(initialFormState)
+      }
+    })
   }
 
   return (
