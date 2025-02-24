@@ -92,6 +92,12 @@ export default function AddStudent() {
           >
             Email address
           </label>
+          {errorForm && (
+            <p className='mt-2 text-sm text-red-700'>
+              <span className='font-medium'>Lỗi!</span>
+              {errorForm.email}
+            </p>
+          )}
         </div>
 
         <div className='group relative z-0 mb-6 w-full'>
