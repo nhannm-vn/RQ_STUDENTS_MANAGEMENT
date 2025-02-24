@@ -18,6 +18,13 @@ const initialFormState: FormStateType = {
   last_name: ''
 }
 
+// Tạo type cho Error
+type FormError =
+  | {
+      [key in keyof FormStateType]: string
+    }
+  | null
+
 export default function AddStudent() {
   // Tạo state để lưu dữ liệu khi submit form
   const [formState, setFormState] = useState<FormStateType>(initialFormState)
@@ -32,11 +39,13 @@ export default function AddStudent() {
   const isAddMode = Boolean(addMatch)
 
   // Dùng useMutation để add dữ liệu lên
-  const mutation = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (body: FormStateType) => {
       return addStudent(body)
     }
   })
+
+  // Dùng useMemo để hạn chế tính toán lỗi mỗi lần re-render component
 
   //currying
   // Mình không sợ nó chạy liền vì nó gọi một hàm khác bên trong
@@ -51,7 +60,7 @@ export default function AddStudent() {
   // Với btn có kiểu submit thì ta sẽ khai báo cho nó một func có chức năng lấy hết các thông tin từ các ô và bấm nút submit
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    mutation.mutate(formState)
+    mutate(formState)
   }
 
   return (
