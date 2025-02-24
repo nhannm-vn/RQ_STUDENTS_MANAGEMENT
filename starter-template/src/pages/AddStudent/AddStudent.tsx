@@ -3,6 +3,7 @@ import { addStudent } from 'apis/students.api'
 import { useMemo, useState } from 'react'
 import { useMatch } from 'react-router-dom'
 import { Student } from 'types/students.type'
+import { isAxiosError } from 'utils/utils'
 
 // Tạo type riêng cho form
 type FormStateType = Omit<Student, 'id'>
@@ -39,16 +40,19 @@ export default function AddStudent() {
   const isAddMode = Boolean(addMatch)
 
   // Dùng useMutation để add dữ liệu lên
-  const { mutate } = useMutation({
+  const { mutate, data, error } = useMutation({
     mutationFn: (body: FormStateType) => {
       return addStudent(body)
     }
   })
 
   // Dùng useMemo để hạn chế tính toán lỗi mỗi lần re-render component
-  // const errorForm = useMemo(() => {
-
-  // })
+  const errorForm = useMemo(() => {
+    if (isAxiosError<{ error: FormError }>(error) && error.response?.status === 422) {
+      return error.response.data.error
+    }
+    return null
+  }, [error])
 
   //currying
   // Mình không sợ nó chạy liền vì nó gọi một hàm khác bên trong
