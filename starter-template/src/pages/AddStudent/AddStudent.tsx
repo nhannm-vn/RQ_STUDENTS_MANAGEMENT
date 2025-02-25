@@ -15,7 +15,7 @@ const initialFormState: FormStateType = {
   btc_address: '',
   country: '',
   first_name: '',
-  gender: 'other',
+  gender: 'Other',
   last_name: ''
 }
 
@@ -139,9 +139,9 @@ export default function AddStudent() {
                   id='gender-1'
                   type='radio'
                   name='gender'
-                  value='male'
+                  value='Male'
                   // Checked khi mà value nó bằng với giá trị trong state form
-                  checked={formState.gender === 'male'}
+                  checked={formState.gender === 'Male'}
                   onChange={handleChange('gender')}
                   className='h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600'
                 />
@@ -154,8 +154,8 @@ export default function AddStudent() {
                   id='gender-2'
                   type='radio'
                   name='gender'
-                  value='female'
-                  checked={formState.gender === 'female'}
+                  value='Female'
+                  checked={formState.gender === 'Female'}
                   onChange={handleChange('gender')}
                   className='h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600'
                 />
@@ -168,8 +168,8 @@ export default function AddStudent() {
                   id='gender-3'
                   type='radio'
                   name='gender'
-                  value='other'
-                  checked={formState.gender === 'other'}
+                  value='Other'
+                  checked={formState.gender === 'Other'}
                   onChange={handleChange('gender')}
                   className='h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600'
                 />
