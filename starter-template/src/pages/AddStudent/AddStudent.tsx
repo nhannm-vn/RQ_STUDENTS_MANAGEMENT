@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { addStudent, getStudent } from 'apis/students.api'
+import { addStudent, getStudent, updateStudent } from 'apis/students.api'
 import { useMemo, useState } from 'react'
 import { useMatch, useParams } from 'react-router-dom'
 import { Student } from 'types/students.type'
@@ -42,7 +42,7 @@ export default function AddStudent() {
   // Dùng useParam để lấy id của đường dẫn
   //hook này của react-router sẽ dùng để lấy param dạng này :id/
   const { id } = useParams()
-  // Mỗi lần bấm vào nút edit thì sẽ get thằng đó bằng useQuery
+  // **Mỗi lần bấm vào nút edit thì sẽ get thằng đó bằng useQuery
   useQuery({
     // id để nó nhận biết phân biệt giữ các student có id khác nhau
     queryKey: ['student', id],
@@ -65,6 +65,12 @@ export default function AddStudent() {
     mutationFn: (body: FormStateType) => {
       return addStudent(body)
     }
+  })
+
+  // updateStudentMutation
+  // id này được lấy từ đường dẫn ở trên
+  const updateStudentMutation = useMutation({
+    mutationFn: (_) => updateStudent(id as string, formState)
   })
 
   // Dùng useMemo để hạn chế tính toán lỗi mỗi lần re-render component
@@ -97,11 +103,22 @@ export default function AddStudent() {
     // Sau submit thành công thì clear cái form
     //tuy nhiên cẩn thận nó bất đồng bộ
     //**C2 là sử dụng mutateAsync
-    addStudentMutation.mutate(formState, {
-      onSuccess: () => {
-        setFormState(initialFormState)
-      }
-    })
+
+    // Khi submit có 2 chế độ là add hoặc edit. Điều này phụ thuộc vào chế độ
+
+    if (isAddMode) {
+      addStudentMutation.mutate(formState, {
+        onSuccess: () => {
+          setFormState(initialFormState)
+        }
+      })
+    } else {
+      updateStudentMutation.mutate(undefined, {
+        onSuccess: (data) => {
+          console.log(data)
+        }
+      })
+    }
   }
 
   return (
