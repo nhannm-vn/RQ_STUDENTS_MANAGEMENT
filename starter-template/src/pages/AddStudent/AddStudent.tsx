@@ -53,6 +53,8 @@ export default function AddStudent() {
         // Vì không còn onSuccess nên phải xài cách này
         //Khi fetch thì sẽ lấy cái đó hiển thị lên màn hình
         setFormState(data.data)
+        // queryFn yêu cầu phải trả về cái gì nên cần return ở đây
+        return data.data
       }),
     enabled: id !== undefined
   })
