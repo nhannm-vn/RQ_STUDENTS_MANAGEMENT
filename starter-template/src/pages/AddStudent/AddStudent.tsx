@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { addStudent } from 'apis/students.api'
 import { useMemo, useState } from 'react'
-import { useMatch } from 'react-router-dom'
+import { useMatch, useParams } from 'react-router-dom'
 import { Student } from 'types/students.type'
 import { isAxiosError } from 'utils/utils'
 
@@ -38,6 +38,15 @@ export default function AddStudent() {
   // Biến check xem đang ở mode nào
   //nếu ở mode add thì sẽ có data còn nếu ở mode edit thì không có data
   const isAddMode = Boolean(addMatch)
+
+  // Dùng useParam để lấy id của đường dẫn
+  //hook này của react-router sẽ dùng để lấy param dạng này :id/
+  const { id } = useParams()
+  // Mỗi lần bấm vào nút edit thì sẽ get thằng đó bằng useQuery
+  useQuery({
+    // id để nó nhận biết phân biệt giữ các student có id khác nhau
+    queryKey: ['student', id]
+  })
 
   // Dùng useMutation để add dữ liệu lên
   const { mutate, data, error, reset, mutateAsync } = useMutation({
