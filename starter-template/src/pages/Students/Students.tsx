@@ -1,8 +1,9 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { getStudents } from 'apis/students.api'
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query'
+import { deleteStudent, getStudents } from 'apis/students.api'
 import classNames from 'classnames'
 import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { Students as StudentsType } from 'types/students.type'
 import { useQueryString } from 'utils/utils'
 
@@ -38,7 +39,7 @@ export default function Students() {
 
   // Cách call api bằng useQuery kết hợp cùng với axios
   //react-query sẽ giúp mình quản lí các state lưu trữ tốt hơn
-  const { data, isLoading } = useQuery({
+  const studentsQuery = useQuery({
     // Các key 'students' sẽ giúp mình sau này có thể refetch hoặc nhận biết thằng nào đang chạy
     // Còn page thì sẽ giúp mình phân trang và truyền như vậy nó sẽ giúp nhận biết khi nào page thay đổi
     //thì nó sẽ chạy lại queryFunc
@@ -76,13 +77,27 @@ export default function Students() {
     placeholderData: keepPreviousData
   })
 
+  // deleteStudentMutation
+  const deleteStudentMutation = useMutation({
+    mutationFn: (id: string | number) => deleteStudent(id)
+  })
+
   // Cách lấy số lượng student và từ đó biết được có bao nhiêu trang
   //mình sẽ lấy tròn lên chứ nếu tròn xuống sẽ không đủ trang để hiển thị số lượng sinh viên
 
   // Lúc chưa tính được số lượng trang thì cũng chẳng sao vì lúc đó đã có skeleton hiện ra nên mình không sợ
   //nó không hiện số lượng phân trang dưới
-  const totalStudentsCount = Number(data?.headers['x-total-count']) || 0
+  const totalStudentsCount = Number(studentsQuery.data?.headers['x-total-count']) || 0
   const totalPage = Math.ceil(totalStudentsCount / LIMIT)
+
+  // _Viết một method handleDelete
+  const handleDelete = (id: string | number) => {
+    deleteStudentMutation.mutate(id, {
+      onSuccess: () => {
+        toast.success(`Xóa thành công student với id là: ${id}`)
+      }
+    })
+  }
 
   return (
     <div>
@@ -100,7 +115,7 @@ export default function Students() {
         </Link>
       </div>
 
-      {isLoading && (
+      {studentsQuery.isLoading && (
         <div role='status' className='mt-6 animate-pulse'>
           <div className='mb-4 h-4  rounded bg-gray-200 dark:bg-gray-700' />
           <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
@@ -118,7 +133,7 @@ export default function Students() {
           <span className='sr-only'>Loading...</span>
         </div>
       )}
-      {!isLoading && (
+      {!studentsQuery.isLoading && (
         <Fragment>
           <div className='relative mt-6 overflow-x-auto shadow-md sm:rounded-lg'>
             <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
@@ -143,7 +158,7 @@ export default function Students() {
               </thead>
               <tbody>
                 {/* render ra dữ liệu */}
-                {data?.data.map((student) => (
+                {studentsQuery.data?.data.map((student) => (
                   <tr
                     key={student.id}
                     className='border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
@@ -167,7 +182,12 @@ export default function Students() {
                       >
                         Edit
                       </Link>
-                      <button className='font-medium text-red-600 dark:text-red-500'>Delete</button>
+                      <button
+                        onClick={() => handleDelete(student.id)}
+                        className='font-medium text-red-600 dark:text-red-500'
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
