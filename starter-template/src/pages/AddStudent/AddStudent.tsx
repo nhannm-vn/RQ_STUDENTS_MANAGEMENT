@@ -60,7 +60,8 @@ export default function AddStudent() {
   })
 
   // Dùng useMutation để add dữ liệu lên
-  const { mutate, data, error, reset, mutateAsync } = useMutation({
+  //{ mutate, data, error, reset, mutateAsync }
+  const addStudentMutation = useMutation({
     mutationFn: (body: FormStateType) => {
       return addStudent(body)
     }
@@ -68,11 +69,14 @@ export default function AddStudent() {
 
   // Dùng useMemo để hạn chế tính toán lỗi mỗi lần re-render component
   const errorForm = useMemo(() => {
-    if (isAxiosError<{ error: FormError }>(error) && error.response?.status === 422) {
-      return error.response.data.error
+    if (
+      isAxiosError<{ error: FormError }>(addStudentMutation.error) &&
+      addStudentMutation.error.response?.status === 422
+    ) {
+      return addStudentMutation.error.response.data.error
     }
     return null
-  }, [error])
+  }, [addStudentMutation.error])
 
   //currying
   // Mình không sợ nó chạy liền vì nó gọi một hàm khác bên trong
@@ -84,7 +88,7 @@ export default function AddStudent() {
     }))
     // Khi thay đổi thì sẽ reset data và error bằng method reset lấy từ useMutation
     //điều này sẽ giúp cho dòng báo lỗi bị mất sau khi hiển thị lỗi
-    if (data || error) reset()
+    if (addStudentMutation.data || addStudentMutation.error) addStudentMutation.reset()
   }
 
   // Với btn có kiểu submit thì ta sẽ khai báo cho nó một func có chức năng lấy hết các thông tin từ các ô và bấm nút submit
@@ -93,7 +97,7 @@ export default function AddStudent() {
     // Sau submit thành công thì clear cái form
     //tuy nhiên cẩn thận nó bất đồng bộ
     //**C2 là sử dụng mutateAsync
-    mutate(formState, {
+    addStudentMutation.mutate(formState, {
       onSuccess: () => {
         setFormState(initialFormState)
       }
