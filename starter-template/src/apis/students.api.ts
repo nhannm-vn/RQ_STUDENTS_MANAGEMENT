@@ -34,3 +34,8 @@ export const updateStudent = (
   id: string | number,
   student: Omit<Student, 'id'> //
 ) => http.put<Student>(`students/${id}`, student)
+
+// Method giúp delete
+export const deleteStudent = (
+  id: string | number //
+) => http.delete(`students/${id}`)
