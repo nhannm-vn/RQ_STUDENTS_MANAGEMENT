@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { addStudent, getStudent, updateStudent } from 'apis/students.api'
 import { useMemo, useState } from 'react'
 import { useMatch, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { Student } from 'types/students.type'
 import { isAxiosError } from 'utils/utils'
 
@@ -110,12 +111,14 @@ export default function AddStudent() {
       addStudentMutation.mutate(formState, {
         onSuccess: () => {
           setFormState(initialFormState)
+          toast.success('Add thành công')
         }
       })
     } else {
       updateStudentMutation.mutate(undefined, {
-        onSuccess: (data) => {
-          console.log(data)
+        onSuccess: (_) => {
+          // Khi thành công thì báo lên
+          toast.success('Update thành công')
         }
       })
     }
