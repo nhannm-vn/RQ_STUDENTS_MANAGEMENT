@@ -83,7 +83,6 @@ export default function Students() {
   //nó không hiện số lượng phân trang dưới
   const totalStudentsCount = Number(data?.headers['x-total-count']) || 0
   const totalPage = Math.ceil(totalStudentsCount / LIMIT)
-  console.log(totalPage)
 
   return (
     <div>

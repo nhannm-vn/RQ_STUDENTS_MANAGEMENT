@@ -109,7 +109,8 @@ export default function AddStudent() {
             type='email'
             name='floating_email'
             id='floating_email'
-            className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
+            className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm
+             text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-gray-900 dark:focus:border-blue-500'
             placeholder=' '
             required
             value={formState.email}
@@ -187,7 +188,7 @@ export default function AddStudent() {
             value={formState.country}
             // Nó chạy hàm khác bên trong nên không sợ hàm mình gọi bị chạy liền
             onChange={handleChange('country')}
-            className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
+            className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-gray-900 dark:focus:border-blue-500'
             placeholder=' '
             required
           />
@@ -207,7 +208,7 @@ export default function AddStudent() {
               id='first_name'
               value={formState.first_name}
               onChange={handleChange('first_name')}
-              className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
+              className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-gray-900 dark:focus:border-blue-500'
               placeholder=' '
               required
             />
@@ -225,7 +226,7 @@ export default function AddStudent() {
               id='last_name'
               value={formState.last_name}
               onChange={handleChange('last_name')}
-              className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
+              className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-gray-900 dark:focus:border-blue-500'
               placeholder=' '
               required
             />
@@ -245,7 +246,7 @@ export default function AddStudent() {
               id='avatar'
               value={formState.avatar}
               onChange={handleChange('avatar')}
-              className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
+              className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-gray-900 dark:focus:border-blue-500'
               placeholder=' '
               required
             />
@@ -263,7 +264,7 @@ export default function AddStudent() {
               id='btc_address'
               value={formState.btc_address}
               onChange={handleChange('btc_address')}
-              className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500'
+              className='peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-gray-900 dark:focus:border-blue-500'
               placeholder=' '
               required
             />
