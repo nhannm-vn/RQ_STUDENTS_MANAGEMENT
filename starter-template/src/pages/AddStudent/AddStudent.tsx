@@ -76,14 +76,14 @@ export default function AddStudent() {
 
   // Dùng useMemo để hạn chế tính toán lỗi mỗi lần re-render component
   const errorForm = useMemo(() => {
-    if (
-      isAxiosError<{ error: FormError }>(addStudentMutation.error) &&
-      addStudentMutation.error.response?.status === 422
-    ) {
-      return addStudentMutation.error.response.data.error
+    // Vì mình sử dụng chung một server và lỗi khá giống nhau nên mình sẽ config ở đây
+    //sẽ có hai chế độ là add và update
+    const error = isAddMode ? addStudentMutation.error : updateStudentMutation.error
+    if (isAxiosError<{ error: FormError }>(error) && error.response?.status === 422) {
+      return error.response.data.error
     }
     return null
-  }, [addStudentMutation.error])
+  }, [addStudentMutation.error, updateStudentMutation.error, isAddMode])
 
   //currying
   // Mình không sợ nó chạy liền vì nó gọi một hàm khác bên trong
