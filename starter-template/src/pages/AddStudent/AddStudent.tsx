@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { addStudent } from 'apis/students.api'
+import { addStudent, getStudent } from 'apis/students.api'
 import { useMemo, useState } from 'react'
 import { useMatch, useParams } from 'react-router-dom'
 import { Student } from 'types/students.type'
@@ -45,7 +45,16 @@ export default function AddStudent() {
   // Mỗi lần bấm vào nút edit thì sẽ get thằng đó bằng useQuery
   useQuery({
     // id để nó nhận biết phân biệt giữ các student có id khác nhau
-    queryKey: ['student', id]
+    queryKey: ['student', id],
+    // Ở đây nó sẽ báo đỏ vì id có thể là undefined để fix thì cần xài cơ chế enable
+    //nghĩa là có id thỏa thì mới làm. Nghĩa là từ đường dẫn lấy được param thì mới chạy
+    queryFn: () =>
+      getStudent(id as string).then((data) => {
+        // Vì không còn onSuccess nên phải xài cách này
+        //Khi fetch thì sẽ lấy cái đó hiển thị lên màn hình
+        setFormState(data.data)
+      }),
+    enabled: id !== undefined
   })
 
   // Dùng useMutation để add dữ liệu lên
