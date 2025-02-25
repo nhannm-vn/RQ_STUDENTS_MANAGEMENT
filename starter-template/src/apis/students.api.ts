@@ -12,6 +12,10 @@ export const getStudents = (page: string | number, limit: string | number) =>
     }
   })
 
+// Viết method getStudent dựa vào id
+// Method này sẽ bỏ vào queryFn của useQuery
+export const getStudent = (id: string | number) => http.get<Student>(`students/${id}`)
+
 // Viết riêng method dành riêng cho gọi http và post addStudent
 // Ở đây mình sẽ không có truyền cho nó id vì khi thêm mới một student thì id nó sẽ tự tạo cho mình
 //trên server database
