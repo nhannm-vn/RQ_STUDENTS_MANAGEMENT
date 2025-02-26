@@ -1,4 +1,4 @@
-import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { deleteStudent, getStudents } from 'apis/students.api'
 import classNames from 'classnames'
 import { Fragment, useEffect, useState } from 'react'
@@ -28,6 +28,10 @@ export default function Students() {
   //       setIsLoading(false)
   //     })
   // }, [])
+
+  // Thằng này giúp cập nhật UI liền sau khi update hoặc delete
+  // nhờ vào cơ chế cache hoặc là fetch lại api
+  const queryClient = useQueryClient()
 
   // Nếu không dùng cách useEffect để lấy dữ liệu thì mình sẽ thông qua react-query
 
@@ -95,6 +99,12 @@ export default function Students() {
     deleteStudentMutation.mutate(id, {
       onSuccess: () => {
         toast.success(`Xóa thành công student với id là: ${id}`)
+        // Sau khi xóa thì để UI có liền thì phải fetch lại api
+        // thông qua invalidateQuery
+        // nghĩa là mỗi lần xóa thành công thì nó sẽ báo cho biết là list đã cũ và cần
+        // fetch lại api
+        queryClient.invalidateQueries({ queryKey: ['students', page] })
+        // tuy nhiên nó sẽ không hiện skeleton lên do bên useQuery bên trên có placeholderData: keepPreviousData
       }
     })
   }
