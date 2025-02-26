@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { addStudent, getStudent, updateStudent } from 'apis/students.api'
 import { useMemo, useState } from 'react'
 import { useMatch, useParams } from 'react-router-dom'
@@ -28,6 +28,7 @@ type FormError =
   | null
 
 export default function AddStudent() {
+  const queryClient = useQueryClient()
   // Tạo state để lưu dữ liệu khi submit form
   const [formState, setFormState] = useState<FormStateType>(initialFormState)
 
@@ -71,7 +72,12 @@ export default function AddStudent() {
   // updateStudentMutation
   // id này được lấy từ đường dẫn ở trên
   const updateStudentMutation = useMutation({
-    mutationFn: (_) => updateStudent(id as string, formState)
+    mutationFn: (_) => updateStudent(id as string, formState),
+    // Khi update thành công thì mình mong muốn sẽ cập nhật lại trên giao diện liền luôn
+    //vì vậy mà mình sẽ cập nhật trong cache thông qua queryClient
+    onSuccess: (data) => {
+      queryClient.setQueryData(['student', id], data)
+    }
   })
 
   // Dùng useMemo để hạn chế tính toán lỗi mỗi lần re-render component
