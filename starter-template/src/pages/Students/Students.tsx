@@ -1,5 +1,5 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { deleteStudent, getStudents } from 'apis/students.api'
+import { deleteStudent, getStudent, getStudents } from 'apis/students.api'
 import classNames from 'classnames'
 import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -106,6 +106,20 @@ export default function Students() {
         queryClient.invalidateQueries({ queryKey: ['students', page] })
         // tuy nhiên nó sẽ không hiện skeleton lên do bên useQuery bên trên có placeholderData: keepPreviousData
       }
+    })
+  }
+
+  // Ý tưởng là mình muốn hover vào thì sẽ fetch lại api luôn để có sẵn nhằm giúp khi bấm edit
+  //thì nó sẽ có sẵn dữ liệu hiện trên form mà không cần đợi
+  //***Lưu ý: id bên kia là string do mình lấy id từ đường dẫn param
+  //còn id bên này do nó là truyền vào thuộc tính của student nên là number
+  //chính vì vậy cần ép kiểu trước khi xài
+  const handlePrefetchStudent = (id: number) => {
+    queryClient.prefetchQuery({
+      queryKey: ['student', String(id)],
+      queryFn: () => getStudent(String(id)),
+      staleTime: 10 * 1000
+      // staleTime giúp cho việc khi fetch api rồi check coi staletime đã cũ chưa dài ra tí để không refetch lại liên tục
     })
   }
 
