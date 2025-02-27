@@ -123,10 +123,30 @@ export default function Students() {
     })
   }
 
+  //demo trường hợp đặc biệt fetch
+  //khi hai lần query có stale time khác nhau thì sao, giống nhau thì sao?
+  const fetchStudent = (second: number) => {
+    const id = '7'
+    queryClient.prefetchQuery({
+      queryKey: ['student', String(id)], //
+      queryFn: () => getStudent(String(id)),
+      staleTime: second * 1000
+    })
+  }
+
   return (
     <div>
       <h1 className='text-lg'>Students</h1>
-      {/* Chuẩn bị button để add student */}
+      <div>
+        <button className='mt-5 rounded bg-blue-500 px-5 py-2 text-white' onClick={() => fetchStudent(10)}>
+          Click 10s
+        </button>
+      </div>
+      <div>
+        <button className='mt-5 rounded bg-blue-500 px-5 py-2 text-white' onClick={() => fetchStudent(10)}>
+          Click 10s
+        </button>
+      </div>
       <div className='mt-5'>
         <Link
           to={'/students/add'}
