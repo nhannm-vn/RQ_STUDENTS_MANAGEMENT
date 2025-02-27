@@ -6,6 +6,8 @@ import NotFound from 'pages/NotFound'
 import Students from 'pages/Students'
 import { useRoutes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { useIsFetching, useIsMutating } from '@tanstack/react-query'
+import Spinner from 'components'
 
 function App() {
   const elements = useRoutes([
@@ -35,8 +37,12 @@ function App() {
     }
   ])
 
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
+
   return (
     <div className='App'>
+      {isFetching + isMutating !== 0 && <Spinner />}
       <ToastContainer />
       <MainLayout>{elements}</MainLayout>
     </div>
