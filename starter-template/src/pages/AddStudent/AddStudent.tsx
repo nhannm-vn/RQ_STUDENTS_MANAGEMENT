@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { addStudent, getStudent, updateStudent } from 'apis/students.api'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useMatch, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Student } from 'types/students.type'
@@ -45,21 +45,37 @@ export default function AddStudent() {
   //hook này của react-router sẽ dùng để lấy param dạng này :id/
   const { id } = useParams()
   // **Mỗi lần bấm vào nút edit thì sẽ get thằng đó bằng useQuery
-  useQuery({
+  const studentQuery = useQuery({
     // id để nó nhận biết phân biệt giữ các student có id khác nhau
     queryKey: ['student', id],
     // Ở đây nó sẽ báo đỏ vì id có thể là undefined để fix thì cần xài cơ chế enable
     //nghĩa là có id thỏa thì mới làm. Nghĩa là từ đường dẫn lấy được param thì mới chạy
-    queryFn: () =>
-      getStudent(id as string).then((data) => {
-        // Vì không còn onSuccess nên phải xài cách này
-        //Khi fetch thì sẽ lấy cái đó hiển thị lên màn hình
-        setFormState(data.data)
-        // queryFn yêu cầu phải trả về cái gì nên cần return ở đây
-        return data.data
-      }),
+
+    //**Để kết hợp với việc hover vào thì dữ liệu sẽ refetch nhằm khi người
+    //dùng bấm edit thì có luôn data thì cần staleTime khác để cho nó hiểu là dữ liệu
+    //chưa cũ giúp nó không refetch lại
+    // Nếu quá 10s thì nó mới gọi api lại
+    staleTime: 10 * 1000,
+
+    queryFn: () => getStudent(id as string),
+    // .then((data) => {
+    //     // Vì không còn onSuccess nên phải xài cách này
+    //     //Khi fetch thì sẽ lấy cái đó hiển thị lên màn hình
+    //     setFormState(data.data)
+    //     // queryFn yêu cầu phải trả về cái gì nên cần return ở đây
+    //     return data.data
+    //   }),
     enabled: id !== undefined
   })
+
+  // ***Vấn đề là khi xài refetchData bên kia nó sẽ không set được state và dữ liệu không hiển thị lên form
+  //nghĩa là queryFn đâu có chạy đâu. Mà nếu không chạy thì lấy gì có dữ liệu hiện lên form
+  //****Nghĩa là bên kia chạy preFretch api với queryFn khác với queryFn bên này. Nên onSuccess cũng khác nhau
+  useEffect(() => {
+    if (studentQuery.data) {
+      setFormState(studentQuery.data.data)
+    }
+  }, [studentQuery.data])
 
   // Dùng useMutation để add dữ liệu lên
   //{ mutate, data, error, reset, mutateAsync }
