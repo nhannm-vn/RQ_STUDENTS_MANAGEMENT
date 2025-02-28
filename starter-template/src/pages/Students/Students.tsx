@@ -134,6 +134,15 @@ export default function Students() {
     })
   }
 
+  // demo query cancellation
+  const refetchStudents = () => {
+    studentsQuery.refetch()
+  }
+
+  const cancelRequestStudents = () => {
+    queryClient.cancelQueries({ queryKey: ['students', page] })
+  }
+
   return (
     <div>
       <h1 className='text-lg'>Students</h1>
@@ -145,6 +154,16 @@ export default function Students() {
       <div>
         <button className='mt-5 rounded bg-blue-500 px-5 py-2 text-white' onClick={() => fetchStudent(10)}>
           Click 10s
+        </button>
+      </div>
+      <div>
+        <button className='mt-5 rounded bg-pink-500 px-5 py-2 text-white' onClick={refetchStudents}>
+          Refetch Students
+        </button>
+      </div>
+      <div>
+        <button className='mt-5 rounded bg-pink-500 px-5 py-2 text-white' onClick={cancelRequestStudents}>
+          Cancel Request Students
         </button>
       </div>
       <div className='mt-5'>
