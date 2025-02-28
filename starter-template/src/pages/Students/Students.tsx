@@ -48,7 +48,7 @@ export default function Students() {
     // Còn page thì sẽ giúp mình phân trang và truyền như vậy nó sẽ giúp nhận biết khi nào page thay đổi
     //thì nó sẽ chạy lại queryFunc
     queryKey: ['students', page],
-    queryFn: () => getStudents(page, 10),
+    queryFn: ({ signal }) => getStudents(page, 10, signal),
     // Note:
     // Mặc định staleTime sẽ là 0 và sẽ gọi api mỗi khi bấm vào
     //nghĩa là mới bấm vào thì nó sẽ hết hạn luôn
@@ -78,7 +78,10 @@ export default function Students() {
     // keepPreviousData nó sẽ giúp cho isLoading vẫn là false và giữ data trước đó
     //khi nó fetch thành công data số 2 thì nó mới cập nhật ra cho chúng ta
 
-    placeholderData: keepPreviousData
+    placeholderData: keepPreviousData,
+    // ***Mặc định thì react-query sẽ nhận ra không fetch được api và sẽ gọi lại 4 lần
+    //retry sẽ giúp mình khống chế được điều đó
+    retry: 0
   })
 
   // deleteStudentMutation

@@ -6,13 +6,15 @@ import http from 'utils/http'
 
 export const getStudents = (
   page: string | number,
-  limit: string | number //
+  limit: string | number, //
+  signal: AbortSignal
 ) =>
   http.get<Students>('students', {
     params: {
       _page: page,
       _limit: limit
-    }
+    },
+    signal
   })
 
 // Viết method getStudent dựa vào id
